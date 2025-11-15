@@ -35,11 +35,16 @@ resource "azurerm_network_interface_backend_address_pool_association" "assoc" {
 }
 
 resource "azurerm_lb_probe" "probe" {
-  name            = "http-80"
-  loadbalancer_id = azurerm_lb.lb.id
-  protocol        = "Tcp"
-  port            = 80
+  name                = "http-80"
+  loadbalancer_id     = azurerm_lb.lb.id
+  protocol            = "Http"
+  port                = 80
+  request_path        = "/"
+  interval_in_seconds = 5
+  number_of_probes    = 2
 }
+
+
 
 resource "azurerm_lb_rule" "rule" {
   name                           = "http-80"
@@ -50,7 +55,12 @@ resource "azurerm_lb_rule" "rule" {
   frontend_ip_configuration_name = "Public"
   backend_address_pool_ids       = [azurerm_lb_backend_address_pool.bepool.id]
   probe_id                       = azurerm_lb_probe.probe.id
+
+  idle_timeout_in_minutes = 4
+  enable_floating_ip      = false
+  load_distribution        = "Default" 
 }
+
 
 resource "azurerm_network_security_group" "nsg" {
   name                = "${var.prefix}-web-nsg"
