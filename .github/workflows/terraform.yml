@@ -45,9 +45,10 @@ jobs:
       - name: Terraform Plan on PR
         if: github.event_name == 'pull_request'
         working-directory: infra
-        run: terraform plan -var-file="env/dev.tfvars"
+        run: terraform plan -var-file="./env/dev.tfvars"
 
       - name: Terraform Apply on MAIN push
         if: github.event_name == 'push' && github.ref == 'refs/heads/main'
         working-directory: infra
-        run: terraform apply -auto-approve -var-file="env/dev.tfvars"
+        run: terraform apply -auto-approve -var-file="./env/dev.tfvars"
+
