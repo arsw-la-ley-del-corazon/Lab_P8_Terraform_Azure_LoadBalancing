@@ -138,7 +138,7 @@ terraform destroy -var-file="env/dev.tfvars"
 
 ---
 
-## 🧠 Preguntas de Reflexión (Resumen)
+## 🧠 Preguntas de Reflexión 
 
 ### 1. ¿Por qué usar un Load Balancer L4 en lugar de Application Gateway (L7)?
 El LB L4 es suficiente para balancear tráfico básico (puertos y protocolos) y es más económico.  
