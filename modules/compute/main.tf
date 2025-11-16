@@ -1,13 +1,3 @@
-variable "resource_group_name" { type = string }
-variable "location" { type = string }
-variable "prefix" { type = string }
-variable "admin_username" { type = string }
-variable "ssh_public_key" { type = string }
-variable "subnet_id" { type = string }
-variable "vm_count" { type = number }
-variable "cloud_init" { type = string }
-variable "tags" { type = map(string) }
-
 resource "azurerm_network_interface" "nic" {
   count               = var.vm_count
   name                = "${var.prefix}-nic-${count.index}"
@@ -30,12 +20,20 @@ resource "azurerm_linux_virtual_machine" "vm" {
   size                = "Standard_B1s"
 
   admin_username = var.admin_username
-  network_interface_ids = [azurerm_network_interface.nic[count.index].id]
 
+  # Si usas contraseña:
+  disable_password_authentication = false
+  admin_password = var.admin_password
+
+  # Si quieres usar SSH key también:
   admin_ssh_key {
     username   = var.admin_username
     public_key = var.ssh_public_key
   }
+
+  network_interface_ids = [
+    azurerm_network_interface.nic[count.index].id
+  ]
 
   source_image_reference {
     publisher = "Canonical"
@@ -44,7 +42,7 @@ resource "azurerm_linux_virtual_machine" "vm" {
     version   = "latest"
   }
 
-  custom_data = base64encode(var.cloud_init)
+  user_data = base64encode(var.cloud_init)
 
   os_disk {
     caching              = "ReadWrite"
@@ -57,6 +55,7 @@ resource "azurerm_linux_virtual_machine" "vm" {
 output "vm_names" {
   value = [for v in azurerm_linux_virtual_machine.vm : v.name]
 }
+
 output "nic_ids" {
   value = [for n in azurerm_network_interface.nic : n.id]
 }

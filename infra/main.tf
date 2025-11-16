@@ -19,7 +19,8 @@ module "compute" {
   location            = azurerm_resource_group.rg.location
   prefix              = var.prefix
   admin_username      = var.admin_username
-  ssh_public_key      = file(var.ssh_public_key)
+  admin_password = var.admin_password
+  ssh_public_key      =   var.ssh_public_key
   subnet_id           = module.vnet.subnet_web_id
   vm_count            = var.vm_count
   cloud_init          = file("${path.module}/cloud-init.yaml")

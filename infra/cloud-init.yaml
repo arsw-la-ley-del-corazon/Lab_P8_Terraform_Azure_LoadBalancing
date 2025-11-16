@@ -2,7 +2,14 @@
 package_update: true
 packages:
   - nginx
+
+write_files:
+  - path: /var/www/html/index.html
+    permissions: '0644'
+    content: |
+      Hola desde $(hostname)
+
 runcmd:
-  - echo "Hola desde $(hostname)" > /var/www/html/index.nginx-debian.html
-  - systemctl enable nginx
+  - rm -f /var/www/html/index.nginx-debian.html
+  - echo "Hola desde $(hostname)" > /var/www/html/index.html
   - systemctl restart nginx
