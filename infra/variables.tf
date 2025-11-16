@@ -11,4 +11,8 @@ variable "subscription_id" {
 variable "tenant_id" {
   type = string
 }
+variable "alert_email" {
+  type = string
+}
+
 
