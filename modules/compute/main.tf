@@ -59,4 +59,9 @@ output "vm_names" {
 }
 output "nic_ids" {
   value = [for n in azurerm_network_interface.nic : n.id]
+
+}
+
+output "vm_ids" {
+  value = [for v in azurerm_linux_virtual_machine.vm : v.id]
 }
