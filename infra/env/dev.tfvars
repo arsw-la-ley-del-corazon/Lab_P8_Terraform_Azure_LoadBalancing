@@ -2,6 +2,7 @@ prefix              = "lab8"
 location            = "eastus"
 vm_count            = 2
 admin_username      = "student"
+admin_password = "Arsw2025."
 ssh_public_key = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIM9vAFFFolFBBFyR4VHYT1uWziYZ7S7MexHD3gQ89piF jeisson@terraform"
 allow_ssh_from_cidr = "0.0.0.0/0" # Cambia a tu IP/32
 tags                = { owner = "alias", course = "ARSW", env = "dev", expires = "2025-12-31" }
